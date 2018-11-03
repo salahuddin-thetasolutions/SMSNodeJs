@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "SMSNodejs", "SMSNodejs\SMSNodejs.njsproj", "{2EDAC825-CBD8-4131-8400-142DCE41CBDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EDAC825-CBD8-4131-8400-142DCE41CBDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EDAC825-CBD8-4131-8400-142DCE41CBDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EDAC825-CBD8-4131-8400-142DCE41CBDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EDAC825-CBD8-4131-8400-142DCE41CBDE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0D34C64-BAD6-4593-8BA3-82AED0F039A9}
+	EndGlobalSection
+EndGlobal
