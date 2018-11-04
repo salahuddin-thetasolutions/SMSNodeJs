@@ -9,9 +9,15 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
 var app = express();
-
+//........Database Connection.......
+//Import the mongoose module
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://localhost/sms';
+mongoose.connect(mongoDB);
+// Get Mongoose to use the global promise library
+mongoose.Promise = global.Promise;
+//......End Database Connection..........
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
