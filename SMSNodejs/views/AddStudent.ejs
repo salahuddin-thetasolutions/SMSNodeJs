@@ -2,26 +2,26 @@
 <head>
     <%-  include partial_views/head.ejs %>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="myCtrl">
     <%-  include partial_views/header.ejs %>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
+            <div class="col-md-6 jumbotron">
 
-                <form class="form-horizontal" action="/addstudent" method="post">
+                <form class="form-horizontal">
                     <fieldset>
-                        <legend>Legend</legend>
+                        <legend class="alert alert-info text-center">Add Student</legend>
+                        <h6 class="alert alert-success">{{successMessage}}</h6>
                         <div class="form-group">
-                            <label  class="col-lg-12 control-label">Name</label>
+                            <label class="col-lg-12 control-label">Name</label>
                             <div class="col-lg-10">
-                                <input type="text" class="form-control" name="name"  placeholder="Name">
+                                <input type="text" ng-model="name" class="form-control" name="name" placeholder="Name">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label  class="col-lg-12 control-label">Roll No</label>
+                            <label class="col-lg-12 control-label">Roll No</label>
                             <div class="col-lg-10">
-                                <input type="password" class="form-control" name="rollno"  placeholder="Roll No">
+                                <input type="password" ng-model="rollno" class="form-control" name="rollno" placeholder="Roll No">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox"> Checkbox
@@ -32,15 +32,80 @@
                         <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
                                 <button type="reset" class="btn btn-default">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" ng-click="savedata()" class="btn btn-primary">Save</button>
                             </div>
                         </div>
                     </fieldset>
                 </form>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-6">
+                <table border="0" class="table table-borderd">
+                   <thead>
+                       <tr>
+                           <th>Name</th>
+                           <th>Roll No</th>
+                           <th>Actions</th>
+                       </tr>
+                   </thead>
+                    <tbody>
+                        <tr ng-repeat="student in students">
+                            <td>{{student.name}}</td>
+                            <td>{{student.rollno}}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http) {
+
+            $scope.savedata = function () {
+                    $http({
+                        method: "POST",
+                        url: "/AddStudent",
+                        dataType: 'json',
+                        data: { name: $scope.name, rollno: $scope.rollno},
+                        headers: { "Content-Type": "application/json" }
+                    }).then(function successCallback(response) {
+                        if (response.data.isSaved) {
+                            $scope.successMessage = response.data.message;
+                            $scope.name = "";
+                            $scope.rollno = "";
+                        }
+
+                    }, function errorCallback(response) {
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                        alert("alert");
+                    });
+
+                getAllStudents();
+            }
+            function getAllStudents() {
+                $http({
+                    method: "GET",
+                    url: "/AllStudent",
+                    dataType: 'json',
+                    data: {},
+                    headers: { "Content-Type": "application/json" }
+                }).then(function successCallback(response) {
+                    $scope.students = response.data;
+                }, function errorCallback(response) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                    alert("alert");
+                });
+
+            }
+            //page load
+            getAllStudents();
+           
+
+        });
+    </script>
     <%-  include partial_views/footer.ejs %>
 </body>
 </html>

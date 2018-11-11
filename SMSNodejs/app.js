@@ -13,7 +13,7 @@ var app = express();
 //........Database Connection.......
 //Import the mongoose module
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost/sms';
+var mongoDB = 'mongodb://localhost/sms1';
 mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
@@ -34,10 +34,9 @@ app.use('/', routes);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.use(function (err, req, res, next) {
+    res.status(422).send({ error: err.message });
+    res.status(402).send({ error: err.message });
 });
 
 // error handlers
