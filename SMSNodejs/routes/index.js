@@ -19,10 +19,6 @@ router.post('/AddStudent', function (req, res) {
 });
 
 
-
-
-
-
 router.get('/AllStudent', function (req, res) {
     //oStudent.find({}).then(function (students) {
     //    res.send(students);
@@ -31,4 +27,15 @@ router.get('/AllStudent', function (req, res) {
         res.send(students);
     });
 });
+router.get('/GetAllStudens', function (req, res) {
+    //oStudent.find({}).then(function (students) {
+    //    res.send(students);
+    //});
+    oStudent.find({}).then(function (students) {
+        res.render('GetAllStudens', { students });
+    });
+});
+
+
+
 module.exports = router;
