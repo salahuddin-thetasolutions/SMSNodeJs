@@ -21,7 +21,9 @@
                         <div class="form-group">
                             <label class="col-lg-12 control-label">Roll No</label>
                             <div class="col-lg-10">
-                                <input type="password" ng-model="rollno" class="form-control" name="rollno" placeholder="Roll No">
+                                <input type="text" ng-model="rollno" class="form-control" name="rollno" placeholder="Roll No">
+                                <input type="hidden" ng-model="updateid">
+
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox"> Checkbox
@@ -32,7 +34,9 @@
                         <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
                                 <button type="reset" class="btn btn-default">Cancel</button>
-                                <button type="button" ng-click="savedata()" class="btn btn-primary">Save</button>
+                                <button type="button" ng-show="savebtn" ng-click="savedata()" class="btn btn-primary">Save</button>
+                                <button type="button" ng-show="updatebtn" ng-click="updatedata()" class="btn btn-primary">Update</button>
+
                             </div>
                         </div>
                     </fieldset>
@@ -50,8 +54,12 @@
                     <tbody>
                         <tr ng-repeat="student in students">
                             <td>{{student.name}}</td>
-                            <td>{{student.rollno}}</td>
-                            <td></td>
+                            <td>{{student.rollno}} </td>
+                            <td>
+                                <!--{{student._id}}-->
+                                <button type="button" ng-click="GetObject(student)" class="btn btn-info">Edit </button>
+                                <button ng-click="deletedata(student._id)" type="button" class="btn btn-danger">Delete </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -61,7 +69,7 @@
     <script>
         var app = angular.module('myApp', []);
         app.controller('myCtrl', function ($scope, $http) {
-
+            //for save data
             $scope.savedata = function () {
                     $http({
                         method: "POST",
@@ -84,6 +92,62 @@
 
                 getAllStudents();
             }
+            //for delete button
+            $scope.deletedata = function (id) {
+               // alert(id);
+                $http({
+                    method: "POST",
+                    url: "/DeleteStudent",
+                    dataType: 'json',
+                    data: { id: id },
+                    headers: { "Content-Type": "application/json" }
+                }).then(function successCallback(response) {
+                    if (response.data.isremoved) {
+                        $scope.successMessage = response.data.message;
+                    }
+
+                }, function errorCallback(response) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                    alert("alert");
+                });
+
+                getAllStudents();
+            }
+            //for Edit button
+            $scope.GetObject = function (student) {
+                $scope.name = student.name;
+                $scope.rollno = student.rollno;
+                $scope.updateid = student._id;
+                $scope.savebtn = false;
+                $scope.updatebtn = true;
+            }
+            //update data
+            $scope.updatedata = function () {
+                $http({
+                    method: "POST",
+                    url: "/UpdateStudent",
+                    dataType: 'json',
+                    data: { name: $scope.name, rollno: $scope.rollno, id: $scope.updateid },
+                    headers: { "Content-Type": "application/json" }
+                }).then(function successCallback(response) {
+                    if (response.data.isupdated) {
+                        $scope.successMessage = response.data.message;
+                        $scope.name = "";
+                        $scope.rollno = "";
+                        $scope.savebtn = true;
+                        $scope.updatebtn = false;
+                    }
+
+                }, function errorCallback(response) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                    alert("alert");
+                });
+
+                getAllStudents();
+            }
+            //get all data
             function getAllStudents() {
                 $http({
                     method: "GET",
@@ -102,6 +166,8 @@
             }
             //page load
             getAllStudents();
+            $scope.savebtn = true;
+
            
 
         });
