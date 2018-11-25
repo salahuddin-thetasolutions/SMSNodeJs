@@ -1,6 +1,20 @@
 ﻿'use strict';
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
+var path = require('path');
+const mime = require('mime');
+
+//var upload = multer({ dest:"./uploads/" });
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+    }
+});
+var upload = multer({ storage: storage });
 
 var oStudent = require('../models/student');
 
@@ -18,12 +32,12 @@ router.get('/GetAllStudens', function (req, res) {
     });
 });
 //Api
-router.post('/AddStudent', function (req, res) {
+router.post('/AddStudent', upload.single('image'), function (req, res) {
+    req.body.image = req.file.filename;
     oStudent.create(req.body).then(function (student) {
         res.send({message:"successfully saved",isSaved:true});
     });
 });
-
 
 router.get('/AllStudent', function (req, res) {
     //oStudent.find({}).then(function (students) {
@@ -44,7 +58,10 @@ router.post('/UpdateStudent', function (req, res) {
         res.send({ message: "successfully updated", isupdated: true });
     });
 });
-
+router.get('/download', function (req, res) {
+    var file = __dirname+"/uploads/" + req.query.filename;
+    res.download(file); // Set disposition and send it.
+});
 
 
 

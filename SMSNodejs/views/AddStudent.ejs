@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-6 jumbotron">
 
-                <form class="form-horizontal">
+                <form class="form-horizontal" enctype="multipart/form-data">
                     <fieldset>
                         <legend class="alert alert-info text-center">Add Student</legend>
                         <h6 class="alert alert-success">{{successMessage}}</h6>
@@ -32,6 +32,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-lg-12 control-label">Image</label>
+                            <div class="col-lg-10">
+                                <input id="imgInp" type="file" aria-label="Add photos to your post" class="upload" name="image" onchange="angular.element(this).scope().LoadFileData(this.files)" multiple="" >
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
                                 <button type="reset" class="btn btn-default">Cancel</button>
                                 <button type="button" ng-show="savebtn" ng-click="savedata()" class="btn btn-primary">Save</button>
@@ -48,6 +54,7 @@
                        <tr>
                            <th>Name</th>
                            <th>Roll No</th>
+                           <th>Image</th>
                            <th>Actions</th>
                        </tr>
                    </thead>
@@ -56,9 +63,13 @@
                             <td>{{student.name}}</td>
                             <td>{{student.rollno}} </td>
                             <td>
+                                <img style="height:100px;width:100px;" class="image-responsive" src="/{{student.image}}" />
+                            </td>
+                            <td>
                                 <!--{{student._id}}-->
                                 <button type="button" ng-click="GetObject(student)" class="btn btn-info">Edit </button>
                                 <button ng-click="deletedata(student._id)" type="button" class="btn btn-danger">Delete </button>
+                                <a class="btn btn-success" href="/download?filename={{student.image}}">Download</a>
                             </td>
                         </tr>
                     </tbody>
@@ -69,14 +80,27 @@
     <script>
         var app = angular.module('myApp', []);
         app.controller('myCtrl', function ($scope, $http) {
+
+            var formData = new FormData();
+
+            $scope.LoadFileData = function (files) {
+                for (var file in files) {
+                    formData.append("image", files[file]);
+                }
+            };
+
             //for save data
             $scope.savedata = function () {
+                formData.append("name", $scope.name);
+                formData.append("rollno", $scope.rollno);
                     $http({
                         method: "POST",
                         url: "/AddStudent",
                         dataType: 'json',
-                        data: { name: $scope.name, rollno: $scope.rollno},
-                        headers: { "Content-Type": "application/json" }
+                        data: formData,
+                        withCredentials: true,
+                        headers: { 'Content-Type': undefined },
+                        transformRequest: angular.identity
                     }).then(function successCallback(response) {
                         if (response.data.isSaved) {
                             $scope.successMessage = response.data.message;

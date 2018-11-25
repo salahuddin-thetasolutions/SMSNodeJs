@@ -10,6 +10,10 @@ var student = new Schema({
     rollno: {
         type: String,
         required: [true, 'rollno is required']
+    },
+    image: {
+        type: String,
+        required: [true, 'image is required']
     }
 });
 var StudetModel = mongoose.model('student', student);

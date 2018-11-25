@@ -39,6 +39,7 @@
     <Content Include="package.json" />
     <Content Include="public\stylesheets\main.css" />
     <Content Include="README.md" />
+    <Content Include="views\GetAllStudens.ejs" />
     <Content Include="views\AddStudent.ejs" />
     <Content Include="views\index.ejs" />
     <Content Include="views\layout.pug" />
@@ -55,6 +56,7 @@
     <Folder Include="public\javascripts\" />
     <Folder Include="public\stylesheets\" />
     <Folder Include="routes\" />
+    <Folder Include="uploads\" />
     <Folder Include="views\" />
     <Folder Include="views\partial_views\" />
   </ItemGroup>
