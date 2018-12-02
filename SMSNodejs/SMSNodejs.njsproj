@@ -31,9 +31,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="helpers\passport.js" />
     <Compile Include="Models\student.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="models\User.js" />
+    <Compile Include="routes\auth.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\users.js" />
     <Content Include="package.json" />
@@ -41,16 +44,21 @@
     <Content Include="README.md" />
     <Content Include="views\GetAllStudens.ejs" />
     <Content Include="views\AddStudent.ejs" />
+    <Content Include="views\email.ejs" />
     <Content Include="views\index.ejs" />
     <Content Include="views\layout.pug" />
     <Content Include="views\error.pug" />
+    <Content Include="views\login.ejs" />
     <Content Include="views\partial_views\footer.ejs" />
     <Content Include="views\partial_views\head.ejs" />
     <Content Include="views\partial_views\header.ejs" />
     <Content Include="views\partial_views\item_menu.ejs" />
+    <Content Include="views\signup.ejs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="models\" />
+    <Folder Include="helpers\" />
+    <Folder Include="NewFolder1\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
